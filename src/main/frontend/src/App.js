@@ -1,7 +1,21 @@
 import logo from './logo.svg';
 import './App.css';
+import { useEffect, useState }  from "react"
 
 function App() {
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:8080/getData", { method: "GET" })
+        .then((res) => {
+          return res.json();
+        })
+        .then(function (result) {
+          setData(result);
+        })
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -17,6 +31,9 @@ function App() {
         >
           Learn React
         </a>
+        <ul>
+            {data.map((v)=><li>작성자 : {v.name} // 제목: {v.title}</li>)}
+        </ul>
       </header>
     </div>
   );
